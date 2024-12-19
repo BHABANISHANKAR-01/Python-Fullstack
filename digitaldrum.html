@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Drum Kit</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(to right, #3a7bd5, #3a6073);
+            color: white;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .drum-kit {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .drum {
+            width: 100px;
+            height: 100px;
+            background: white;
+            color: black;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 100px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+
+        .drum:active {
+            transform: scale(0.9);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .playing {
+            background: #ff4757;
+            color: white;
+            box-shadow: 0 0 20px #ff4757;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Digital Drum Kit</h1>
+    <div class="drum-kit">
+        <div class="drum" data-key="Q">Q</div>
+        <div class="drum" data-key="W">W</div>
+        <div class="drum" data-key="E">E</div>
+        <div class="drum" data-key="A">A</div>
+        <div class="drum" data-key="S">S</div>
+        <div class="drum" data-key="D">D</div>
+        <div class="drum" data-key="Z">Z</div>
+        <div class="drum" data-key="X">X</div>
+        <div class="drum" data-key="C">C</div>
+    </div>
+
+    <script>
+        // Map of sounds for each key
+        const sounds = {
+            Q: "01 Sehmi Hai Dhadkan - Atif Aslam.mp3",
+            W: "09 Piano Theme - 1921 - 190Kbps.mp3",
+            E: "coin_count_down_end.mp3",
+            A: "coin_double_0.mp3",
+            S: "coin_double_1.mp3",
+            D: "coin_enter_pool.mp3",
+            Z: "sounds/crash.mp3",
+            X: "sounds/ride.mp3",
+            C: "sounds/clap.mp3",
+        };
+
+        // Function to play sound
+        function playSound(key) {
+            const sound = sounds[key.toUpperCase()];
+            if (sound) {
+                const audio = new Audio(sound);
+                audio.play();
+                animateButton(key);
+            }
+        }
+
+        // Add animation to button
+        function animateButton(key) {
+            const button = document.querySelector(`.drum[data-key="${key.toUpperCase()}"]`);
+            if (button) {
+                button.classList.add("playing");
+                setTimeout(() => button.classList.remove("playing"), 150);
+            }
+        }
+
+        // Add event listeners for clicks
+        document.querySelectorAll(".drum").forEach((button) => {
+            button.addEventListener("click", () => playSound(button.dataset.key));
+        });
+
+        // Add event listener for keypress
+        document.addEventListener("keydown", (event) => {
+            playSound(event.key);
+        });
+    </script>
+</body>
+
+</html>
